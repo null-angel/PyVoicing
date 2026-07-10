@@ -5,7 +5,7 @@ A Python library for symbolic music analysis, focusing on chord voicings and ten
 * Lightweight, no dependency
 > PyVoicing is currently in Alpha stage.
 > API and type hints are subject to change.
-> Latest release: 0.1.4
+> Latest release: 0.1.5
 
 ## Installation
 
@@ -134,6 +134,91 @@ Feature suggestions and bug reports are welcome!
 - Equality: `Pitch("C4") == 60`, `Chroma("C") == Pitch("C5")`, `Voicing("C4 E4 G4") == Voicing("D4 F#4 A4") << "M2"`.
 - Notation: `Pitch("C4").abc` octave shifts, rest handling.
 - Regression: any reported bug gets a focused test.
+
+## MCP Server
+
+PyVoicing ships with an optional **Model Context Protocol (MCP)** server that exposes the library API as MCP tools, resources, and prompts for use with GitHub Copilot, Claude, and other MCP-compatible clients.
+
+### Installation
+
+Install the library with the MCP extra:
+
+```bash
+pip install "pyvoicing[mcp]"
+```
+
+Or install from source:
+
+```bash
+pip install -e ".[mcp]"
+```
+
+### Running the server
+
+```bash
+pyvoicing-mcp
+```
+
+This starts the server over stdio, the standard transport for MCP clients like Claude Desktop or GitHub Copilot.
+
+### Wiring into Claude Desktop
+
+Add the following to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "pyvoicing": {
+      "command": "pyvoicing-mcp"
+    }
+  }
+}
+```
+
+### Available tools
+
+| Tool | Description |
+|---|---|
+| `pitch_parse` | Parse a pitch string and return name, octave, MIDI, freq, ABC, LilyPond |
+| `pitch_transpose` | Transpose a pitch up or down by an interval |
+| `pitch_distance` | Return the interval distance between two pitches |
+| `pitch_spell` | Return both flat and sharp spellings of a pitch |
+| `pitch_notation` | Return a pitch in scientific, ABC, and LilyPond notation |
+| `chroma_transpose` | Transpose a pitch class by an interval |
+| `chroma_distance` | Interval distance between two pitch classes (mod 12) |
+| `interval_parse` | Parse an interval name or semitone count |
+| `interval_add` | Add two intervals |
+| `interval_subtract` | Subtract one interval from another |
+| `voicing_parse` | Parse a space-separated pitch list into a voicing |
+| `voicing_transpose` | Transpose an entire voicing |
+| `voicing_add` | Add a pitch to a voicing |
+| `voicing_remove` | Remove a pitch from a voicing |
+| `voicing_find_interval` | Find pitches forming a given interval with a higher voice |
+| `voicing_to_root` | Move a voicing so its root lands on a target pitch |
+| `voicing_tones` | Analyze chord tones relative to a root |
+| `voicing_drop2` | Drop-2 transform of a four-note voicing |
+| `voicing_drop3` | Drop-3 transform of a four-note voicing |
+| `voicing_drop24` | Drop-2-and-4 transform of a four-note voicing |
+
+### Available resources
+
+| URI | Description |
+|---|---|
+| `pyvoicing://readme` | Project README |
+| `pyvoicing://changelog` | Version history |
+| `pyvoicing://constants/chroma` | Chroma offset → name map (JSON) |
+| `pyvoicing://constants/intervals` | Interval offset → name map (JSON) |
+| `pyvoicing://constants/offsets` | Name → offset map (JSON) |
+| `pyvoicing://api-reference` | Compact API quick-reference |
+
+### Available prompts
+
+| Prompt | Description |
+|---|---|
+| `analyze_voicing` | Identify chord tones, quality, and voicing type |
+| `explain_pitch_spelling` | Explain flat vs. sharp spelling choices |
+| `suggest_chord_tones` | Suggest chord-tone labels and chord symbol |
+| `convert_voicing_description` | Convert voicing to chord symbol and alternatives |
 
 ## Changelog
 See [CHANGELOG.md](https://github.com/lyk91471872/PyVoicing/blob/main/CHANGELOG.md) for version history and release notes.

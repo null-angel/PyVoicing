@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note: PyVoicing is currently in alpha; the API is subject to change.
 
+## [0.1.5] - 2026-07-10
+### Added
+- MCP server package `pyvoicing_mcp` in `src/pyvoicing_mcp/`.
+- 20 MCP tools wrapping Pitch, Chroma, Interval, and Voicing APIs.
+- 6 MCP resources: README, changelog, chroma/interval/offset constants, API quick-reference.
+- 4 MCP prompts: analyze_voicing, explain_pitch_spelling, suggest_chord_tones, convert_voicing_description.
+- `[mcp]` optional dependency group with `mcp>=1.9.0`.
+- `pyvoicing-mcp` console script entry point to run the server over stdio.
+- Serialization helpers in `pyvoicing_mcp.serializers` for JSON-friendly output.
+- 52 pytest tests covering tools, serializers, resources, and prompts.
+- README section documenting MCP installation, configuration, tools, resources, and prompts.
+
 ## [0.1.4] - 2025-12-25
 ### Added
 - Shared spelling preference via Spelling.prefer_flat.
